@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	  <title>SIMP</title>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	  <link rel="stylesheet" type="text/css" href="style.css" />
+	  <style type="text/css">
+	  @import ur@import url("https://fonts.googleapis.com/css?family=Inconsolata:700");
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	background-color: black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	color: coral;
+	padding: 2rem;
+	overflow-x: hidden;
+}
+
+.container {
+	max-width: 100%;
+	width: 80rem;
+}
+
+h2 {
+	position: relative;
+	font-family: Inconsolata, monospace;
+	font-size: 1.8rem;
+	text-transform: uppercase;
+	
+	// Dimensions of original path
+	width: 515px;
+	height: 168px;
+	
+	transform: scale(var(--x, 1));
+	transform-origin: var(--o, center);
+	margin: 0 auto;
+}
+
+.char {
+	--i: calc(50% / var(--char-total));
+	offset-path: path('M.4 84.1s127.4 188 267.7 0 247.3 0 247.3 0');
+	offset-distance: calc(var(--char-index) * 1.2rem);
+	position: absolute;
+	animation: move 1500ms infinite alternate forwards var(--delay, 0ms);
+}
+
+
+@keyframes move {
+	100% {
+		--i: 2rem;
+		offset-distance: calc((var(--char-index) * 1.2rem) + 12rem);
+	}
+}l(https://fonts.googleapis.com/css?family=Open+Sans:600);
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 40px;
+}
+
+.text {
+  position: absolute;
+  width: 450px;
+  left: 50%;
+  margin-left: -225px;
+  height: 40px;
+  top: 50%;
+  margin-top: -20px;
+}
+
+p {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+}
+
+.word {
+  position: absolute;
+  width: 220px;
+  opacity: 0;
+}
+
+.letter {
+  display: inline-block;
+  position: relative;
+  float: left;
+  transform: translateZ(25px);
+  transform-origin: 50% 50% 25px;
+}
+
+.letter.out {
+  transform: rotateX(90deg);
+  transition: transform 0.32s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+.letter.behind {
+  transform: rotateX(-90deg);
+}
+
+.letter.in {
+  transform: rotateX(0deg);
+  transition: transform 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.wisteria {
+  color: #8e44ad;
+}
+
+.belize {
+  color: #2980b9;
+}
+
+.pomegranate {
+  color: #c0392b;
+}
+
+.green {
+  color: #16a085;
+}
+
+.midnight {
+  color: #2c3e50;
+}
+	  </style>
+	</head>
+		<div class="container">
+	<h2 data-splitting>I am animating on a path</h2>
+</div>
+
+	<body>
+		<script type="text/javascript">
+	const container = document.querySelector('.container')
+
+const split = Splitting({
+	whitespace: true
+})
+
+const update = () => {
+	const { el } = split[0]
+	const originalPathWidth = el.clientWidth
+	const originalPathHeight = el.clientHeight
+	
+	const m = container.clientWidth / originalPathWidth
+	const containerLeft = container.getBoundingClientRect().left
+	const elLeft = el.getBoundingClientRect().left
+	
+	// If same width, do nothing
+	if (m === 1) return
+	
+	// Scale
+	el.style.setProperty('--x', m)
+	
+	// Set transform origin
+	if (container.clientWidth < originalPathWidth) {
+		el.style.setProperty('--o', 'left')
+	} else {
+		el.style.setProperty('--o', 'center')
+	}
+}
+
+const observer = new ResizeObserver(update)
+observer.observe(container)
+		</script>
+	</body>
+</html>
